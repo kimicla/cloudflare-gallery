@@ -1,0 +1,20 @@
+name = 'cloudflare-gallery'
+license = 'MIT'
+licenselink = 'https://github.com/owner/repo/LICENSE'
+description = 'Cloudflare gallery'
+
+# The home page of the theme, where the source can be found
+
+homepage = 'https://github.com/kimicla/cloudflare-gallery'
+
+# If you have a running demo of the theme
+demosite = 'https://kimicla.github.io/cloudflare-gallery'
+
+# Taxonomy terms
+tags = ['blog', 'gallery']
+features = ['some', 'awesome', 'features']
+
+# If the theme has a single author
+[author]
+  name = 'Kimi Chen'
+  homepage = 'http://kimi.qqviaja.com'

@@ -1,0 +1,30 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-US'
+title = 'Cloudflare Gallery'
+
+[[menus.main]]
+name = 'Home'
+pageRef = '/'
+weight = 10
+
+[module]
+  [module.hugoVersion]
+    extended = false
+    min = "0.116.0"
+
+[params]
+  cloudflareImageBaseURL = 'https://your-cloudflare-account.cloudflare.com/'
+  defaultGalleryLayout = 'grid'
+  cloudflareWorkerURL = 'https://your-worker-url.workers.dev'
+  
+[params.cloudflareImages]
+  defaultWidth = 800
+  defaultHeight = 600
+  quality = 85
+  fit = 'cover'    # Options: scale-down, contain, cover, crop, pad
+  gallery = [
+    "image1",
+    "image2",
+    "image3",
+    # Add more image IDs...
+  ]

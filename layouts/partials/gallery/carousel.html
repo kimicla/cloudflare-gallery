@@ -1,0 +1,18 @@
+<div class="gallery gallery-carousel">
+    <div class="carousel-container">
+        {{- range .images -}}
+        <div class="carousel-item">
+            {{- $imageID := . -}}
+            {{- $defaultVariant := index site.Params.cloudflareImages.variants 0 -}}
+            <a href="{{ $.baseURL }}{{ $imageID }}/{{ $defaultVariant }}" class="gallery-link">
+                <img src="{{ $.baseURL }}{{ $imageID }}/{{ $defaultVariant }}?w={{ default 800 $.width }}&h={{ default 600 $.height }}&q={{ default 75 $.quality }}&fit={{ default "scale-down" $.fit }}" 
+                     alt="Gallery image"
+                     loading="lazy"
+                     class="carousel-image">
+            </a>
+        </div>
+        {{- end -}}
+    </div>
+    <button class="carousel-prev" aria-label="Previous image">←</button>
+    <button class="carousel-next" aria-label="Next image">→</button>
+</div> 

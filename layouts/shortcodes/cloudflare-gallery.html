@@ -1,0 +1,51 @@
+{{- $layout := .Get "layout" | default site.Params.defaultGalleryLayout -}}
+{{- $images := site.Params.cloudflareImages.gallery -}}
+{{- $width := .Get "width" | default site.Params.cloudflareImages.defaultWidth -}}
+{{- $height := .Get "height" | default site.Params.cloudflareImages.defaultHeight -}}
+{{- $quality := .Get "quality" | default site.Params.cloudflareImages.quality -}}
+{{- $fit := .Get "fit" | default site.Params.cloudflareImages.fit -}}
+{{- $baseURL := site.Params.cloudflareImages.imageBaseURL -}}
+{{- $accountHash := site.Params.cloudflareImages.accountHash -}}
+{{- $context := dict "images" $images "baseURL" $baseURL "width" $width "height" $height "quality" $quality "fit" $fit -}}
+
+{{- partial (printf "gallery/%s.html" $layout) $context -}}
+
+<script>
+document.addEventListener('DOMContentLoaded', async function() {
+    const galleryContainer = document.querySelector('.gallery-container');
+    const gallery = document.querySelector('.gallery');
+    
+    try {
+        // Fetch images from your worker
+        const response = await fetch('{{ .Site.Params.cloudflareImages.workerURL }}');
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch images');
+        }
+        
+        const images = await response.json();
+        
+        // Clear any loading state
+        gallery.innerHTML = '';
+        
+        // Create image elements
+        images.forEach(image => {
+            const imageUrl = `https://imagedelivery.net/{{ $accountHash }}/${image.id}`;
+            const imgElement = document.createElement('div');
+            imgElement.className = 'gallery-item';
+            imgElement.innerHTML = `
+                <a href="${imageUrl}" class="gallery-link">
+                    <img src="${imageUrl}?width={{ $width }}&height={{ $height }}&quality={{ $quality }}&fit={{ $fit }}"
+                         alt="Gallery image"
+                         loading="lazy"
+                         class="gallery-image">
+                </a>
+            `;
+            gallery.appendChild(imgElement);
+        });
+    } catch (error) {
+        console.error('Error loading images:', error);
+        galleryContainer.innerHTML = '<p>Error loading gallery images</p>';
+    }
+});
+</script>

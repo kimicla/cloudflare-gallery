@@ -1,0 +1,27 @@
+/* themes/my-cloudflare-theme/static/css/gallery.css */
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
+  grid-gap: 1rem; /* Space between images */
+  padding: 1rem;
+}
+
+.gallery a {
+  display: block; /* Make the link fill the grid cell */
+  text-decoration: none; /* Remove underlines */
+}
+
+.gallery img {
+  width: 100%; /* Make images fill their container */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Remove extra space below images */
+  border: 1px solid #ddd; /* Optional border */
+  border-radius: 4px; /* Optional rounded corners */
+  transition: transform 0.2s ease-in-out; /* Smooth transition for hover effect */
+}
+
+.gallery img:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a shadow on hover */
+}

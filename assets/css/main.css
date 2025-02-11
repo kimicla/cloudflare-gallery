@@ -1,0 +1,161 @@
+body {
+  color: #222;
+  font-family: sans-serif;
+  line-height: 1.5;
+  margin: 1rem;
+  max-width: 768px;
+}
+
+header {
+  border-bottom: 1px solid #222;
+  margin-bottom: 1rem;
+}
+
+footer {
+  border-top: 1px solid #222;
+  margin-top: 1rem;
+}
+
+a {
+  color: #00e;
+  text-decoration: none;
+}
+
+/* Common gallery styles */
+.gallery {
+    margin: 2rem 0;
+}
+
+.gallery-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Grid layout */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+/* Masonry layout */
+.gallery-masonry {
+    columns: 3 250px;
+    column-gap: 1rem;
+    padding: 1rem;
+}
+
+.gallery-masonry .gallery-item {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+}
+
+/* Carousel layout */
+.gallery-carousel {
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-container {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+}
+
+.carousel-item {
+    flex: 0 0 100%;
+}
+
+.carousel-prev,
+.carousel-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.carousel-prev {
+    left: 0;
+}
+
+.carousel-next {
+    right: 0;
+}
+
+/* Gallery page specific styles */
+.gallery-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.gallery-controls {
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.layout-switch {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    background: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.layout-switch:hover {
+    background: #f5f5f5;
+}
+
+.layout-switch.active {
+    background: #00e;
+    color: white;
+    border-color: #00e;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+    
+    .gallery-masonry {
+        columns: 2 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-masonry {
+        columns: 1;
+    }
+}
+
+/* Variant handling */
+.gallery-item {
+    position: relative;
+}
+
+.gallery-link[data-variant] {
+    display: none;
+}
+
+.gallery-link[data-variant="public"] {
+    display: block;
+}
+
+/* Show different variants on hover or click */
+.gallery-item:hover .gallery-link[data-variant="thumbnail"],
+.gallery-item.show-large .gallery-link[data-variant="large"] {
+    display: block;
+}
+
+.gallery-item:hover .gallery-link[data-variant="public"],
+.gallery-item.show-large .gallery-link[data-variant="public"] {
+    display: none;
+}

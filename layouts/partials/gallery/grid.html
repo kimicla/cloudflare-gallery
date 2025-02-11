@@ -1,0 +1,15 @@
+<div class="gallery gallery-grid">
+    {{- range .images -}}
+    <div class="gallery-item">
+        {{- $imageID := . -}}
+        {{- range site.Params.cloudflareImages.variants -}}
+        <a href="{{ $.baseURL }}{{ $imageID }}/{{ . }}" class="gallery-link" data-variant="{{ . }}">
+            <img src="{{ $.baseURL }}{{ $imageID }}/{{ . }}?width={{ $.width }}&height={{ $.height }}&quality={{ $.quality }}&fit={{ $.fit }}" 
+                 alt="Gallery image"
+                 loading="lazy"
+                 class="gallery-image">
+        </a>
+        {{- end -}}
+    </div>
+    {{- end -}}
+</div> 
