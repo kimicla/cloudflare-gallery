@@ -1,12 +1,8 @@
 {{- $imageID := .Get 0 -}}
 {{- $variant := .Get 1 | default "public" -}}
-{{- $width := .Get "width" | default site.Params.cloudflareImages.defaultWidth -}}
-{{- $height := .Get "height" | default site.Params.cloudflareImages.defaultHeight -}}
-{{- $quality := .Get "quality" | default site.Params.cloudflareImages.quality -}}
-{{- $fit := .Get "fit" | default site.Params.cloudflareImages.fit -}}
 {{- $baseURL := site.Params.cloudflareImageBaseURL -}}
 
-<img src="{{ $baseURL }}{{ $imageID }}/{{ $variant }}?width={{ $width }}&height={{ $height }}&quality={{ $quality }}&fit={{ $fit }}"
+<img src="{{ $baseURL }}{{ $imageID }}/{{ $variant }}"
      alt="{{ .Get "alt" | default "Gallery image" }}"
      loading="lazy"
      class="gallery-image">

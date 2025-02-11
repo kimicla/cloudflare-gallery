@@ -1,12 +1,9 @@
 {{- $layout := .Get "layout" | default site.Params.defaultGalleryLayout -}}
 {{- $images := site.Params.cloudflareImages.gallery -}}
-{{- $width := .Get "width" | default site.Params.cloudflareImages.defaultWidth -}}
-{{- $height := .Get "height" | default site.Params.cloudflareImages.defaultHeight -}}
-{{- $quality := .Get "quality" | default site.Params.cloudflareImages.quality -}}
-{{- $fit := .Get "fit" | default site.Params.cloudflareImages.fit -}}
 {{- $baseURL := site.Params.cloudflareImages.imageBaseURL -}}
 {{- $accountHash := site.Params.cloudflareImages.accountHash -}}
-{{- $context := dict "images" $images "baseURL" $baseURL "width" $width "height" $height "quality" $quality "fit" $fit -}}
+{{- $variant := .Get "variant" | default "public" -}}
+{{- $context := dict "images" $images "baseURL" $baseURL -}}
 
 {{- partial (printf "gallery/%s.html" $layout) $context -}}
 
@@ -34,8 +31,8 @@ document.addEventListener('DOMContentLoaded', async function() {
             const imgElement = document.createElement('div');
             imgElement.className = 'gallery-item';
             imgElement.innerHTML = `
-                <a href="${imageUrl}" class="gallery-link">
-                    <img src="${imageUrl}?width={{ $width }}&height={{ $height }}&quality={{ $quality }}&fit={{ $fit }}"
+                <a href="${imageUrl}/{{ $variant }}" class="gallery-link">
+                    <img src="${imageUrl}/{{ $variant }}"
                          alt="Gallery image"
                          loading="lazy"
                          class="gallery-image">
