@@ -5,44 +5,50 @@
 {{- $variant := .Get "variant" | default "public" -}}
 {{- $context := dict "images" $images "baseURL" $baseURL -}}
 
-{{- partial (printf "gallery/%s.html" $layout) $context -}}
+<!-- Include Lightbox2 CSS and JS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox-plus-jquery.min.js"></script>
+
+<div class="gallery" id="gallery">
+    <!-- Images will be loaded dynamically -->
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', async function() {
-    const galleryContainer = document.querySelector('.gallery-container');
     const gallery = document.querySelector('.gallery');
     
     try {
-        // Fetch images from your worker
         const response = await fetch('{{ .Site.Params.cloudflareImages.workerURL }}');
-        
-        if (!response.ok) {
-            throw new Error('Failed to fetch images');
-        }
+        if (!response.ok) throw new Error('Failed to fetch images');
         
         const images = await response.json();
         
-        // Clear any loading state
-        gallery.innerHTML = '';
-        
         // Create image elements
-        images.forEach(image => {
-            const imageUrl = `https://imagedelivery.net/{{ $accountHash }}/${image.id}`;
-            const imgElement = document.createElement('div');
-            imgElement.className = 'gallery-item';
+        images.forEach((image, index) => {
+            const imageUrl = `https://imagedelivery.net/{{ site.Params.cloudflareImages.accountHash }}/${image.id}`;
+            const imgElement = document.createElement('a');
+            imgElement.href = `${imageUrl}/public`;
+            imgElement.setAttribute('data-lightbox', 'gallery');
+            imgElement.setAttribute('data-title', `Image ${index + 1}`);
             imgElement.innerHTML = `
-                <a href="${imageUrl}/{{ $variant }}" class="gallery-link">
-                    <img src="${imageUrl}/{{ $variant }}"
-                         alt="Gallery image"
-                         loading="lazy"
-                         class="gallery-image">
-                </a>
+                <img src="${imageUrl}/thumbnail" 
+                     alt="Gallery image"
+                     loading="lazy"
+                     class="gallery-image">
             `;
             gallery.appendChild(imgElement);
         });
+
+        // Lightbox is automatically initialized
+        lightbox.option({
+            'resizeDuration': 200,
+            'wrapAround': true,
+            'albumLabel': 'Image %1 of %2'
+        });
+
     } catch (error) {
         console.error('Error loading images:', error);
-        galleryContainer.innerHTML = '<p>Error loading gallery images</p>';
+        gallery.innerHTML = '<p>Error loading gallery images</p>';
     }
 });
 </script>

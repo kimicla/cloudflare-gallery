@@ -1,30 +1,7 @@
 {{ define "main" }}
 <div class="gallery-page">
     <h1>{{ .Title }}</h1>
-    
-    <div class="gallery-controls">
-        <button class="layout-switch" data-layout="grid">Grid</button>
-        <button class="layout-switch" data-layout="masonry">Masonry</button>
-        <button class="layout-switch" data-layout="carousel">Carousel</button>
-    </div>
-
     {{ .Content }}
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const layoutButtons = document.querySelectorAll('.layout-switch');
-    const galleryContainer = document.querySelector('.gallery');
-    
-    layoutButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const layout = this.dataset.layout;
-            // Store the current layout preference
-            localStorage.setItem('preferredLayout', layout);
-            // Reload the page with the new layout
-            window.location.search = `?layout=${layout}`;
-        });
-    });
-});
-</script>
 {{ end }} 
