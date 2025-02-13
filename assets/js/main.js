@@ -6,20 +6,6 @@ let loadingObserver;
 let galleryImages = [];
 
 // UI state management
-function showLoading() {
-    const loader = document.querySelector('.gallery-loader');
-    if (loader) {
-        loader.style.display = 'block';
-    }
-}
-
-function hideLoading() {
-    const loader = document.querySelector('.gallery-loader');
-    if (loader) {
-        loader.style.display = 'none';
-    }
-}
-
 function showError(message) {
     const errorDiv = document.querySelector('.gallery-error');
     if (errorDiv) {
@@ -61,23 +47,6 @@ function createImageElement(image, index) {
         img.loading = 'lazy';
         img.dataset.id = image.id;
         img.dataset.index = index;
-        img.classList.add('loading');
-        
-        // Handle image loading
-        img.onload = () => {
-            img.classList.remove('loading');
-            img.classList.add('loaded');
-        };
-        
-        // Handle image error
-        img.onerror = () => {
-            img.classList.remove('loading');
-            img.classList.add('error');
-        };
-        
-        // Add loading placeholder
-        const placeholder = document.createElement('div');
-        placeholder.className = 'image-loading-placeholder';
         
         // Add caption if filename exists
         if (image.filename) {
@@ -90,7 +59,6 @@ function createImageElement(image, index) {
         // Assemble the elements
         link.appendChild(img);
         imgContainer.appendChild(link);
-        imgContainer.appendChild(placeholder);
         
         return imgContainer;
     } catch (error) {
@@ -104,7 +72,6 @@ async function loadImages(page) {
     if (isLoading || !hasMore) return;
     
     isLoading = true;
-    showLoading();
     
     try {
         const config = window.galleryConfig;
@@ -131,7 +98,7 @@ async function loadImages(page) {
         }
         
         const images = data.result.images;
-        const gallery = document.querySelector('.gallery');
+        const gallery = document.querySelector('.gallery-grid');
         
         if (!gallery) {
             throw new Error('Gallery container not found');
@@ -200,11 +167,10 @@ async function loadImages(page) {
         hasMore = false;
     } finally {
         isLoading = false;
-        hideLoading();
     }
 }
 
-// Intersection Observer for infinite scroll
+// Modify the Intersection Observer for smoother scrolling
 function initializeIntersectionObserver() {
     if (loadingObserver) {
         loadingObserver.disconnect();
@@ -222,14 +188,16 @@ function initializeIntersectionObserver() {
 
     const options = {
         root: null,
-        rootMargin: '0px',
-        threshold: 0.5
+        rootMargin: '200px', // Increased margin for earlier loading
+        threshold: 0.01 // Lower threshold for smoother triggering
     };
 
     loadingObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting && !isLoading && hasMore) {
-                loadImages(currentPage + 1);
+                requestAnimationFrame(() => {
+                    loadImages(currentPage + 1);
+                });
             }
         });
     }, options);
@@ -247,6 +215,11 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('Gallery container not found');
         return;
     }
+
+    // Create the gallery grid
+    const gallery = document.createElement('div');
+    gallery.className = 'gallery-grid';
+    container.appendChild(gallery);
 
     // Read configuration from data attributes
     window.galleryConfig = {
@@ -272,6 +245,12 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeIntersectionObserver();
 
     // Start loading images
-    loadImages(1);
+    loadImages(1).catch(error => {
+        console.error('Failed to load initial images:', error);
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'gallery-error';
+        errorMessage.textContent = 'Failed to load gallery';
+        gallery.appendChild(errorMessage);
+    });
 });
 
