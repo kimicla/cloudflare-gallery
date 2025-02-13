@@ -1,15 +1,24 @@
 <!-- themes/my-cloudflare-theme/layouts/_default/baseof.html -->
 <!DOCTYPE html>
-<html lang="{{ .Site.LanguageCode }}">
+<html lang="{{ .Site.LanguageCode | default "en" }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ .Title }} | {{ .Site.Title }}</title>
-    <link rel="stylesheet" href="{{ "css/gallery.css" | relURL }}">
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+    <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Summary }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}{{ end }}">
+    
+    <!-- Theme assets -->
+    {{ partial "head/css.html" . }}
+    {{ partial "head/js.html" . }}
+    
+    <!-- Third-party dependencies -->
+    {{ partial "head/third-party.html" . }}
 </head>
 <body>
     <header>
-        <!-- Your header content (navigation, logo, etc.) -->
+        {{ block "header" . }}
+        <!-- Site header content -->
+        {{ end }}
     </header>
 
     <main>
@@ -17,7 +26,9 @@
     </main>
 
     <footer>
-        <!-- Your footer content -->
+        {{ block "footer" . }}
+        <!-- Site footer content -->
+        {{ end }}
     </footer>
 </body>
 </html>

@@ -5,50 +5,18 @@
 {{- $variant := .Get "variant" | default "public" -}}
 {{- $context := dict "images" $images "baseURL" $baseURL -}}
 
-<!-- Include Lightbox2 CSS and JS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox-plus-jquery.min.js"></script>
-
-<div class="gallery" id="gallery">
-    <!-- Images will be loaded dynamically -->
+<!-- Gallery container with configuration -->
+<div class="gallery-container"
+    data-account-hash="{{- .Site.Params.cloudflareImages.accountHash -}}"
+    data-worker-url="{{- .Site.Params.cloudflareImages.workerURL -}}"
+    data-image-prefix="{{- .Get "image-prefix" -}}"
+    data-layout="{{- .Get "layout" | default "grid" -}}"
+    data-category="{{- .Get "category" | default "all" -}}"
+    data-items-per-page="{{- .Get "items-per-page" | default 30 -}}"
+>
+    <div class="gallery"></div>
+    <div class="gallery-loader" style="display: none">
+        <div class="loader-spinner"></div>
+    </div>
+    <div class="gallery-error" style="display: none"></div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', async function() {
-    const gallery = document.querySelector('.gallery');
-    
-    try {
-        const response = await fetch('{{ .Site.Params.cloudflareImages.workerURL }}');
-        if (!response.ok) throw new Error('Failed to fetch images');
-        
-        const images = await response.json();
-        
-        // Create image elements
-        images.forEach((image, index) => {
-            const imageUrl = `https://imagedelivery.net/{{ site.Params.cloudflareImages.accountHash }}/${image.id}`;
-            const imgElement = document.createElement('a');
-            imgElement.href = `${imageUrl}/public`;
-            imgElement.setAttribute('data-lightbox', 'gallery');
-            imgElement.setAttribute('data-title', `Image ${index + 1}`);
-            imgElement.innerHTML = `
-                <img src="${imageUrl}/thumbnail" 
-                     alt="Gallery image"
-                     loading="lazy"
-                     class="gallery-image">
-            `;
-            gallery.appendChild(imgElement);
-        });
-
-        // Lightbox is automatically initialized
-        lightbox.option({
-            'resizeDuration': 200,
-            'wrapAround': true,
-            'albumLabel': 'Image %1 of %2'
-        });
-
-    } catch (error) {
-        console.error('Error loading images:', error);
-        gallery.innerHTML = '<p>Error loading gallery images</p>';
-    }
-});
-</script>

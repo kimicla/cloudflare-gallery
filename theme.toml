@@ -1,7 +1,7 @@
 name = 'cloudflare-gallery'
 license = 'MIT'
 licenselink = 'https://github.com/owner/repo/LICENSE'
-description = 'Cloudflare gallery'
+description = 'A Hugo theme for creating beautiful image galleries using Cloudflare Images'
 
 # The home page of the theme, where the source can be found
 
@@ -11,10 +11,21 @@ homepage = 'https://github.com/kimicla/cloudflare-gallery'
 demosite = 'https://kimicla.github.io/cloudflare-gallery'
 
 # Taxonomy terms
-tags = ['blog', 'gallery']
-features = ['some', 'awesome', 'features']
+tags = ['gallery', 'images', 'cloudflare', 'responsive', 'minimal']
+features = [
+    'Cloudflare Images integration',
+    'Responsive grid layout',
+    'Lazy loading',
+    'Lightbox support',
+    'Infinite scroll'
+]
 
 # If the theme has a single author
 [author]
   name = 'Kimi Chen'
   homepage = 'http://kimi.qqviaja.com'
+
+# Minimum Hugo version
+[module.hugoVersion]
+    extended = false
+    min = "0.116.0"

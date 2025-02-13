@@ -13,18 +13,16 @@ weight = 10
     min = "0.116.0"
 
 [params]
-  cloudflareImageBaseURL = 'https://your-cloudflare-account.cloudflare.com/'
-  defaultGalleryLayout = 'grid'
-  cloudflareWorkerURL = 'https://your-worker-url.workers.dev'
-  
-[params.cloudflareImages]
-  defaultWidth = 800
-  defaultHeight = 600
-  quality = 85
-  fit = 'cover'    # Options: scale-down, contain, cover, crop, pad
-  gallery = [
-    "image1",
-    "image2",
-    "image3",
-    # Add more image IDs...
-  ]
+  # Cloudflare Images configuration
+  [params.cloudflareImages]
+    accountHash = '' # Your Cloudflare account hash
+    workerURL = '' # Your Cloudflare worker URL
+    defaultLayout = 'grid'
+    itemsPerPage = 30
+    
+    # Image variants
+    variants = [
+      { name = "thumbnail", width = 300, height = 300, fit = "cover" },
+      { name = "preview", width = 800, height = 600, fit = "contain" },
+      { name = "full", width = 2048, height = 0, fit = "contain" }
+    ]

@@ -2,6 +2,24 @@
 <div class="gallery-page">
     <h1>{{ .Title }}</h1>
     {{ .Content }}
-</div>
+    
+    <div class="gallery-container">
+        <div class="gallery"></div>
+        <div class="gallery-loader" style="display: none">
+            <div class="loader-spinner"></div>
+        </div>
+        <div class="gallery-error" style="display: none"></div>
+    </div>
 
-{{ end }} 
+    <!-- Lightbox template -->
+    <div class="gallery-lightbox">
+        <div class="lightbox-content">
+            <img src="" alt="" />
+            <div class="lightbox-caption"></div>
+            <button class="lightbox-close">&times;</button>
+            <button class="lightbox-nav lightbox-prev" aria-label="Previous image">&lt;</button>
+            <button class="lightbox-nav lightbox-next" aria-label="Next image">&gt;</button>
+        </div>
+    </div>
+</div>
+{{ end }}
