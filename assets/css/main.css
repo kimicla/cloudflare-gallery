@@ -145,11 +145,21 @@ a {
 
 .gallery-error {
     text-align: center;
-    color: #e74c3c;
-    padding: 10px;
-    background: #fdf0ed;
-    border-radius: 4px;
-    margin: 10px 0;
+    color: #dc3545;
+    padding: 20px;
+    background: #fff8f8;
+    border: 1px solid #ffd7d7;
+    border-radius: 8px;
+    margin: 20px auto;
+    max-width: 600px;
+    font-size: 1.1em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.gallery-error::before {
+    content: '⚠️';
+    display: inline-block;
+    margin-right: 10px;
 }
 
 .gallery-end-message {
@@ -441,4 +451,26 @@ a {
 .gallery-nav button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+/* No Images Message */
+.gallery-no-images {
+    text-align: center;
+    padding: 40px 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 20px auto;
+    max-width: 600px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    color: #6c757d;
+    font-size: 1.1em;
+    line-height: 1.5;
+    border: 1px solid #dee2e6;
+}
+
+.gallery-no-images::before {
+    content: '📷';
+    display: block;
+    font-size: 2.5em;
+    margin-bottom: 15px;
 }

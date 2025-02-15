@@ -1,14 +1,15 @@
 {{- $layout := .Get "layout" | default site.Params.defaultGalleryLayout -}}
 {{- $images := site.Params.cloudflareImages.gallery -}}
 {{- $baseURL := site.Params.cloudflareImages.imageBaseURL -}}
-{{- $accountHash := site.Params.cloudflareImages.accountHash -}}
+{{- $accountHash := getenv "HUGO_CLOUDFLARE_ACCOUNT_HASH" -}}
+{{- $workerURL := .Site.Params.cloudflareImages.workerURL -}}
 {{- $variant := .Get "variant" | default "public" -}}
 {{- $context := dict "images" $images "baseURL" $baseURL -}}
 
 <!-- Gallery container with configuration -->
 <div class="gallery-container"
-    data-account-hash="{{- .Site.Params.cloudflareImages.accountHash -}}"
-    data-worker-url="{{- .Site.Params.cloudflareImages.workerURL -}}"
+    data-worker-url="{{- $workerURL -}}"
+    data-account-hash="{{- $accountHash -}}"
     data-image-prefix="{{- .Get "image-prefix" -}}"
     data-layout="{{- .Get "layout" | default "grid" -}}"
     data-category="{{- .Get "category" | default "all" -}}"

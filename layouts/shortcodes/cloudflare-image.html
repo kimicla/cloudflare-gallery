@@ -1,9 +1,13 @@
 {{- $imageID := .Get 0 -}}
 {{- $variant := .Get 1 | default "public" -}}
-{{- $baseURL := site.Params.cloudflareImageBaseURL -}}
+{{- $accountHash := getenv "HUGO_CLOUDFLARE_ACCOUNT_HASH" -}}
+{{- $baseURL := "https://imagedelivery.net" -}}
 
-<img src="{{ $baseURL }}{{ $imageID }}/{{ $variant }}"
+<img src="{{ $baseURL }}/{{ $accountHash }}/{{ $imageID }}/{{ $variant }}"
      alt="{{ .Get "alt" | default "Gallery image" }}"
      loading="lazy"
-     class="gallery-image">
+     class="gallery-image"
+     width="{{ .Get "width" | default "auto" }}"
+     height="{{ .Get "height" | default "auto" }}"
+>
 
