@@ -1,8 +1,8 @@
 {{- $layout := .Get "layout" | default site.Params.defaultGalleryLayout -}}
 {{- $images := site.Params.cloudflareImages.gallery -}}
 {{- $baseURL := site.Params.cloudflareImages.imageBaseURL -}}
-{{- $accountHash := getenv "HUGO_CLOUDFLARE_ACCOUNT_HASH" -}}
-{{- $workerURL := .Site.Params.cloudflareImages.workerURL -}}
+{{- $accountHash := site.Params.cloudflareImages.accountHash -}}
+{{- $workerURL := site.Params.cloudflareImages.workerURL -}}
 {{- $variant := .Get "variant" | default "public" -}}
 {{- $context := dict "images" $images "baseURL" $baseURL -}}
 
